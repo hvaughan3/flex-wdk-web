@@ -121,6 +121,7 @@ document.querySelector('#payBtn').addEventListener('click', () => {
     cardInfo: {
       cardNumber: document.querySelector('#cardNumber').value,
       cardType: document.querySelector('select[name="cardType"]').value,
+      securityCode: document.querySelector('select[name="securityCode"]').value,
       cardExpirationMonth: document.querySelector('input[name="cardExpirationMonth"]').value,
       cardExpirationYear: document.querySelector('input[name="cardExpirationYear"]').value
     }
