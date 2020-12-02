@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>flex-sdk-web</h1><p><a href="https://www.npmjs.com/package/@cybersource/flex-sdk-web"><img src="https://img.shields.io/npm/v/@cybersource/flex-sdk-web.svg" alt="npm version"></a></p>
+<p>Storing your customer’s card data dramatically increases your repeat-custom conversion rate, but it can also introduce additional risks along with a <a href="https://www.pcisecuritystandards.org/">PCI DSS</a> overhead - these are mitigated by tokenizing the card data. CyberSource replaces your customer’s card data with a token that can be used only by you.</p>
+<p>Secure Acceptance Flexible Token API provides a secure method for tokenizing card data and reducing your PCI DSS burden. Card data is encrypted on the customer’s device and sent directly to CyberSource, bypassing your systems altogether.</p>
+<p>This SDK simplifies the client-side integration and enables:</p>
+<ul>
+<li>Full control of the user experience</li>
+<li>Wide range of browser support</li>
+<li><a href="https://www.pcisecuritystandards.org/documents/PCI-DSS-v3_2-SAQ-A_EP-rev1_1.pdf">SAQ A-EP</a> eligibility</li>
+</ul>
+<h2>Table of contents</h2><ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#how-to-use">How to use</a></li>
+<li><a href="#example-integration">Example Integration</a></li>
+<li><a href="#browser-support">Browser support</a></li>
+<li><a href="#copyright-and-license">Copyright and license</a></li>
+</ul>
+<h2>Installation</h2><p>Install the package with:</p>
+<pre class="prettyprint source"><code>yarn add @cybersource/flex-sdk-web
+# or
+npm install @cybersource/flex-sdk-web --save</code></pre><p>The SDK is exposed as a <a href="https://github.com/umdjs/umd">UMD</a> providing compatibility with most module loader specs or direct use in the browser via a script tag.</p>
+<h2>How to use</h2><h3>Include in your app</h3><pre class="prettyprint source lang-js"><code>import flex from '@cybersource/flex-sdk-web';
+
+const options = {};
+
+flex.createToken(options, response => {
+  // use response
+});</code></pre><p>OR</p>
+<h3>Include via a script tag</h3><pre class="prettyprint source lang-html"><code>&lt;html>
+  &lt;body>
+    &lt;script src=&quot;./YOUR_ASSETS_PATH/flex-sdk-web.js&quot;>&lt;/script>
+    &lt;script>
+      var options = {};
+
+      FLEX.createToken(options, function(response) {
+        // use response
+      });
+    &lt;/script>
+  &lt;/body>
+&lt;/html></code></pre><h2>Docs</h2><p>Full documentation is located in the <code>/docs</code> folder at the root of the installation directory.</p>
+<h2>Example Integration</h2><p>The SDK is non-prescriptive on your payment flow design, making few assumptions about your development stack. It is easily integrated into any front-end setup. Described below is a minimal example for a web app using full page refreshes and form POSTs.</p>
+<h3>Steps:</h3><ul>
+<li>For each transaction a new Flex public key should be fetched prior to rendering the checkout page.<ul>
+<li>Refer to the <a href="https://developer.cybersource.com/api/developer-guides/dita-flex/SAFlexibleToken.html">documentation on how to request a key</a>.</li>
+</ul>
+</li>
+<li>Flex public key is rendered to a JS variable in <a href="https://tools.ietf.org/html/rfc7517">JWK</a> format.</li>
+<li>On the button click event all payment data is gathered and a token creation call is made using the SDK.</li>
+<li>When the token is created, the value is set on a hidden field and the form is submitted.</li>
+<li>You can use token with follow-on CyberSource services to complete payment (e.g. in the subscription ID field used in the <a href="https://www.cybersource.com/developers/integration_methods/simple_order_and_soap_toolkit_api/">Simple Order API</a>).</li>
+</ul>
+<pre class="prettyprint source lang-html"><code>&lt;!-- checkout template -->
+&lt;html>
+  &lt;body>
+    &lt;form id=&quot;paymentForm&quot; action=&quot;/your/server/endpoint&quot; method=&quot;post&quot;>
+      &lt;input type=&quot;text&quot; id=&quot;cardNumber&quot; />
+      &lt;input type=&quot;text&quot; name=&quot;securityCode&quot; />
+      &lt;input type=&quot;text&quot; name=&quot;cardExpirationMonth&quot; />
+      &lt;input type=&quot;text&quot; name=&quot;cardExpirationYear&quot; />
+      &lt;select name=&quot;cardType&quot;>
+        &lt;option value=&quot;001&quot;>VISA&lt;/option>
+        &lt;option value=&quot;002&quot;>MasterCard&lt;/option>
+        &lt;option value=&quot;003&quot;>AmericanExpress&lt;/option>
+      &lt;/select>
+      &lt;input type=&quot;hidden&quot; name=&quot;token&quot; />
+      &lt;button type=&quot;button&quot; id=&quot;payBtn&quot;>Pay Now&lt;/button>
+    &lt;/form>
+    &lt;script>
+      var jwk = {
+        /* flex public key in jwk format */
+      };
+    &lt;/script>
+    &lt;script src=&quot;integration.js&quot;>&lt;/script>
+  &lt;/body>
+&lt;/html></code></pre><pre class="prettyprint source lang-js"><code>// integration.js
+import flex from '@cybersource/flex-sdk-web';
+
+document.querySelector('#payBtn').addEventListener('click', () => {
+  const options = {
+    kid: jwk.kid,
+    keystore: jwk,
+    encryptionType: 'RsaOaep', // ensure this matches the encryptionType you specified when creating your key
+    cardInfo: {
+      cardNumber: document.querySelector('#cardNumber').value,
+      cardType: document.querySelector('select[name=&quot;cardType&quot;]').value,
+      cardExpirationMonth: document.querySelector('input[name=&quot;cardExpirationMonth&quot;]').value,
+      cardExpirationYear: document.querySelector('input[name=&quot;cardExpirationYear&quot;]').value
+    }
+  };
+
+  flex.createToken(options, response => {
+    if (response.error) {
+      alert('There has been an error!');
+      console.log(response);
+      return;
+    }
+
+    document.querySelector(&quot;input[name='token']&quot;).value = response.token;
+    document.querySelector('#paymentForm').submit();
+  });
+});</code></pre><p><em>Note that the SDK can easily be integrated into a single page application, using AJAX for the key fetch and token submission.</em></p>
+<h2>Browser support</h2><ul>
+<li>Chrome 37+</li>
+<li>Internet Explorer 11</li>
+<li>Safari 7.1+ *</li>
+<li>iOS Safari 8+ *</li>
+<li>Firefox 34+</li>
+<li>Edge 12+</li>
+</ul>
+<p><em>Note that Safari 10 and below does not support an encryptionType of RsaOaep256</em></p>
+<h2>Copyright and license</h2><p>Code and documentation copyright 2017 <a href="http://www.cybersource.com">CyberSource</a>. Released under the CyberSource SDK License Agreement as detailed in <code>./LICENSE.md</code>.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-@cybersource_flex-sdk-web.html">@cybersource/flex-sdk-web</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Apr 08 2020 18:23:23 GMT+0100 (GMT Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

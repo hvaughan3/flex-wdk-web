@@ -1,0 +1,56 @@
+{
+  "_from": "@cybersource/flex-sdk-web",
+  "_id": "@cybersource/flex-sdk-web@0.3.1",
+  "_inBundle": false,
+  "_integrity": "sha512-xd/lC3mb32m5nQmlTtwBku7CZBV2taX0CUmnFQ8JYwzx9tZdAPj7NYBE0TkciWAIxIIevrTlcL2dD7jg7YcVxQ==",
+  "_location": "/@cybersource/flex-sdk-web",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@cybersource/flex-sdk-web",
+    "name": "@cybersource/flex-sdk-web",
+    "escapedName": "@cybersource%2fflex-sdk-web",
+    "scope": "@cybersource",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@cybersource/flex-sdk-web/-/flex-sdk-web-0.3.1.tgz",
+  "_shasum": "f8cfbb8c298cedb4b6dac84eb267d778ee89b179",
+  "_spec": "@cybersource/flex-sdk-web",
+  "_where": "/Users/hvaughan3/Documents/TMX/Titlemax.CustomerWebsite",
+  "author": {
+    "name": "CyberSource"
+  },
+  "bugs": {
+    "url": "https://github.com/CyberSource/cybersource-flex-samples/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Easily create payment tokens using Flex API",
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "homepage": "https://github.com/CyberSource/cybersource-flex-samples#readme",
+  "keywords": [
+    "cybersource",
+    "flex",
+    "tokenization",
+    "payments",
+    "sdk"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "dist/flex-sdk-web.js",
+  "name": "@cybersource/flex-sdk-web",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CyberSource/cybersource-flex-samples.git"
+  },
+  "version": "0.3.1"
+}
